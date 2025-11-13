@@ -17,6 +17,16 @@
         <TextBlock Grid.Row="0" Text="Список студентов" FontSize="20" FontWeight="Bold" 
                    HorizontalAlignment="Center" Margin="10"/>
 
+        <!-- Добавьте перед DataGrid -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtSearch" Width="200" Margin="5" 
+             TextChanged="TxtSearch_TextChanged" 
+             />
+            <ComboBox x:Name="cmbGroups" Width="150" Margin="5"
+              SelectionChanged="CmbGroups_SelectionChanged"/>
+            <Button Content="Сбросить фильтры" Click="BtnResetFilters_Click" Margin="5"/>
+        </StackPanel>
+
         <!-- DataGrid для отображения студентов -->
         <DataGrid x:Name="studentsDataGrid" Grid.Row="1" Margin="10" AutoGenerateColumns="False"
                   CanUserAddRows="False" IsReadOnly="True">

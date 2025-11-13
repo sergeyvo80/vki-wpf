@@ -26,6 +26,7 @@ namespace vki_wpf
         {
             InitializeComponent();
             _context = new OvchinnikovLmsContext();
+            LoadGroups();
             LoadStudents();
         }
 
@@ -50,5 +51,58 @@ namespace vki_wpf
                               MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+        private void LoadGroups()
+        {
+            var groups = _context.Groups.OrderBy(g => g.GroupName).ToList();
+            cmbGroups.ItemsSource = groups;
+            cmbGroups.DisplayMemberPath = "GroupName";
+            cmbGroups.SelectedValuePath = "GroupId";
+        }
+
+        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void CmbGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ApplyFilters()
+        {
+            var students = _context.Students.Include(s => s.Group).AsQueryable();
+
+            // Фильтр по поиску
+            if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                students = students.Where(s =>
+                    s.FirstName.Contains(txtSearch.Text) ||
+                    s.LastName.Contains(txtSearch.Text));
+            }
+
+            // Фильтр по группе
+            if (cmbGroups.SelectedValue != null)
+            {
+                int selectedGroupId = (int)cmbGroups.SelectedValue;
+                students = students.Where(s => s.GroupId == selectedGroupId);
+            }
+
+            studentsDataGrid.ItemsSource = students
+                .OrderBy(s => s.LastName)
+                .ThenBy(s => s.FirstName)
+                .ToList();
+        }
+
+        private void BtnResetFilters_Click(object sender, RoutedEventArgs e)
+        {
+            txtSearch.Text = string.Empty;
+            cmbGroups.SelectedIndex = -1;
+            LoadStudents();
+        }
+
     }
 }
