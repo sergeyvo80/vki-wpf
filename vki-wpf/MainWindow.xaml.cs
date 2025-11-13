@@ -18,9 +18,10 @@ namespace vki_wpf
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    private OvchinnikovLmsContext _context;
     public partial class MainWindow : Window
     {
+        private OvchinnikovLmsContext _context;
+
         public MainWindow()
         {
             InitializeComponent();

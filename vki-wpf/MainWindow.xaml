@@ -31,9 +31,9 @@
         </DataGrid>
 
         <!-- Панель кнопок -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+        <!--<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="btnRefresh" Content="Обновить" Click="BtnRefresh_Click" Margin="5" Padding="10,5"/>
             <Button x:Name="btnAddStudent" Content="Добавить студента" Click="BtnAddStudent_Click" Margin="5" Padding="10,5"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </Window>
