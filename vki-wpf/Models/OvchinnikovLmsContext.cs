@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace vki_wpf.Models;
 
@@ -20,8 +21,26 @@ public partial class OvchinnikovLmsContext : DbContext
     public virtual DbSet<Student> Students { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DBSRV\\OV2025;Initial Catalog=ovchinnikov-lms;Integrated Security=True;Trust Server Certificate=True");
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Чтение строки подключения из App.config
+            string? connectionString = ConfigurationManager
+                .ConnectionStrings["OvchinnikovLmsConnection"]?
+                .ConnectionString;
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'OvchinnikovLmsConnection' not found in app.config");
+            }
+
+            optionsBuilder.UseSqlServer(connectionString);
+        }
+    }
+
+
+    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+    //        => optionsBuilder.UseSqlServer("Data Source=NUC;Initial Catalog=ovchinnikov-lms;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
