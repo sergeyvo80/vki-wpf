@@ -1,7 +1,7 @@
 <configuration>
 	<connectionStrings>
 		<add name="OvchinnikovLmsConnection"
-			 connectionString="Data Source=NUC;Initial Catalog=ovchinnikov-lms;Trusted_Connection=true;Integrated Security=True;Trust Server Certificate=True"
+			 connectionString="Data Source=DBSRV\OV2025;Initial Catalog=ovchinnikov-lms;Trusted_Connection=true;Integrated Security=True;Trust Server Certificate=True"
 			 providerName="System.Data.SqlClient" />
 	</connectionStrings>
 </configuration>

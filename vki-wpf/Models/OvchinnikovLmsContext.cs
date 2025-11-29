@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace vki_wpf.Models;
 
@@ -34,7 +36,10 @@ public partial class OvchinnikovLmsContext : DbContext
                 throw new InvalidOperationException("Connection string 'OvchinnikovLmsConnection' not found in app.config");
             }
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder
+                .UseSqlServer(connectionString)
+                .LogTo(message => Debug.WriteLine(message), LogLevel.Information)
+                .EnableSensitiveDataLogging(); // Опционально: показывает значения параметров
         }
     }
 
